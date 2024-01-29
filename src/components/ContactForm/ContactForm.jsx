@@ -2,14 +2,14 @@ import css from './ContactForm.module.css';
 import { ContactFormInput, ContactFormButton } from 'components';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from './../../redux/operations';
-import { selectFilteredContacts } from './../../redux/selectors';
+import { createContact } from './../../redux/contacts/operations';
+import { selectContactsAll } from './../../redux/selectors';
 import { toast } from 'react-toastify';
 import { useRef } from 'react';
 
 export const ContactForm = () => {
   const ref = useRef(null);
-  const contacts = useSelector(selectFilteredContacts);
+  const contacts = useSelector(selectContactsAll);
   const dispatch = useDispatch();
   const methods = useForm();
   const { handleSubmit, reset } = methods;
@@ -27,7 +27,7 @@ export const ContactForm = () => {
       return;
     }
 
-    dispatch(addContact(data))
+    dispatch(createContact(data))
       .unwrap()
       .catch(error => {
         toast.error(error);

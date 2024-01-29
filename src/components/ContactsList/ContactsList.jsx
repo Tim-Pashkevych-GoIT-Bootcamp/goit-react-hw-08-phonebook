@@ -2,21 +2,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import css from './ContactsList.module.css';
 import { ContactFormButton } from 'components';
 import {
-  selectIsLoading,
+  selectContactsIsLoading,
   selectFilteredContacts,
 } from './../../redux/selectors';
-import { useState } from 'react';
-import { deleteContact, fetchContacts } from './../../redux/operations';
+import { useEffect } from 'react';
+import {
+  deleteContact,
+  getAllContacts,
+} from './../../redux/contacts/operations';
 import { toast } from 'react-toastify';
 
 export const ContactsList = () => {
-  const isLoading = useSelector(selectIsLoading);
+  const isLoading = useSelector(selectContactsIsLoading);
   const contacts = useSelector(selectFilteredContacts);
 
   const dispatch = useDispatch();
 
-  useState(() => {
-    dispatch(fetchContacts());
+  useEffect(() => {
+    dispatch(getAllContacts());
   }, [dispatch]);
 
   const onDelete = id => {

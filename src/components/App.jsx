@@ -1,25 +1,17 @@
-import {
-  ContactForm,
-  ContactsList,
-  ContactsListFilter,
-  Section,
-} from 'components';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { lazy } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import Layout from './Layout';
+
+const Home = lazy(() => import('./../pages/Home/Home'));
+const Contacts = lazy(() => import('./../pages/Contacts/Contacts'));
 
 export const App = () => {
   return (
-    <>
-      <Section title="Phonebook">
-        <ContactForm />
-      </Section>
-
-      <Section title="Contacts">
-        <ContactsListFilter />
-        <ContactsList />
-      </Section>
-
-      <ToastContainer />
-    </>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="/contacts" element={<Contacts />} />
+      </Route>
+    </Routes>
   );
 };
