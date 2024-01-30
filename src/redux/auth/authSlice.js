@@ -1,5 +1,10 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { userCurrent, userLogin, userLogout, userSignup } from './operations';
+import {
+  loadCurrentUser,
+  userLogin,
+  userLogout,
+  userSignup,
+} from './operations';
 
 const initialState = {
   user: {
@@ -10,65 +15,67 @@ const initialState = {
   isLoggedIn: false,
   isLoading: false,
   error: null,
+  formId: null,
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    clearAuthErrors(state) {
-      state.error = null;
+    setAuthFormId(state, { payload }) {
+      state.formId = payload;
     },
   },
   extraReducers: builder => {
-    builder.addCase(userSignup.fulfilled, (state, { payload }) => {
-      state.user = payload.user;
-      state.token = payload.token;
-      state.isLoggedIn = true;
-      state.isLoading = false;
-      state.error = null;
-    });
-    builder.addCase(userLogin.fulfilled, (state, { payload }) => {
-      state.user = payload.user;
-      state.token = payload.token;
-      state.isLoggedIn = true;
-      state.isLoading = false;
-      state.error = null;
-    });
-    builder.addCase(userLogout.fulfilled, (state, { payload }) => {
-      state = initialState;
-      state.isLoading = false;
-      state.error = null;
-    });
-    builder.addCase(userCurrent.fulfilled, (state, { payload }) => {
-      state.user = payload;
-      state.isLoading = false;
-      state.error = null;
-    });
-    builder.addMatcher(
-      isAnyOf(
-        userSignup.pending,
-        userLogin.pending,
-        userLogout.pending,
-        userCurrent.pending
-      ),
-      state => {
-        state.isLoading = true;
-      }
-    );
-    builder.addMatcher(
-      isAnyOf(
-        userSignup.rejected,
-        userLogin.rejected,
-        userLogout.rejected,
-        userCurrent.rejected
-      ),
-      (state, { payload }) => {
-        state.error = payload;
-      }
-    );
+    builder
+      .addCase(userSignup.fulfilled, (state, { payload }) => {
+        state.user = payload.user;
+        state.token = payload.token;
+        state.isLoggedIn = true;
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(userLogin.fulfilled, (state, { payload }) => {
+        state.user = payload.user;
+        state.token = payload.token;
+        state.isLoggedIn = true;
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(userLogout.fulfilled, (state, { payload }) => {
+        state = initialState;
+      })
+      .addCase(loadCurrentUser.fulfilled, (state, { payload }) => {
+        state.user = payload;
+        state.isLoggedIn = true;
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addMatcher(
+        isAnyOf(
+          userSignup.pending,
+          userLogin.pending,
+          userLogout.pending,
+          loadCurrentUser.pending
+        ),
+        state => {
+          state.isLoading = true;
+          state.error = null;
+        }
+      )
+      .addMatcher(
+        isAnyOf(
+          userSignup.rejected,
+          userLogin.rejected,
+          userLogout.rejected,
+          loadCurrentUser.rejected
+        ),
+        (state, { payload }) => {
+          state.error = payload;
+        }
+      );
   },
 });
 
-export const { clearAuthErrors } = authSlice.actions;
+export const { setAuthFormId } = authSlice.actions;
 export const authReducer = authSlice.reducer;

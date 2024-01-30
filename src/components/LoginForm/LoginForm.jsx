@@ -1,23 +1,27 @@
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAuthError } from './../../redux/selectors';
+import { selectAuthError, selectAuthFormId } from './../../redux/selectors';
 import { userLogin } from './../../redux/auth/operations';
 import { Alert } from 'components/Alert/Alert';
+import { setAuthFormId } from './../../redux/auth/authSlice';
 
-export const LoginForm = () => {
+export const LoginForm = ({ id }) => {
   const dispatch = useDispatch();
   const error = useSelector(selectAuthError);
+  const formId = useSelector(selectAuthFormId);
+
   const { register, handleSubmit, reset } = useForm();
 
-  const onSubmit = data => {
-    console.log(data);
-
-    dispatch(userLogin(data));
-    reset();
+  const onSubmit = credentials => {
+    dispatch(setAuthFormId(id));
+    dispatch(userLogin(credentials))
+      .unwrap()
+      .then(res => reset())
+      .catch(error => {});
   };
   return (
     <>
-      {error && <Alert type="error">{error}</Alert>}
+      {id === formId && error && <Alert type="error">{error}</Alert>}
 
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <label className="form-control w-full max-w-xs">

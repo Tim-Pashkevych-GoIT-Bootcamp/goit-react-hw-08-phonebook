@@ -1,7 +1,11 @@
 import React from 'react';
 import { HiOutlineUserAdd } from 'react-icons/hi';
+import { useSelector } from 'react-redux';
+import { selectAuthIsLoggedIn } from './../../redux/selectors';
 
 export const NavBar = () => {
+  const isLoggedIn = useSelector(selectAuthIsLoggedIn);
+
   return (
     <div className="navbar bg-base-100">
       <div className="flex-none">
@@ -28,9 +32,11 @@ export const NavBar = () => {
         <h1 className="text-center w-full">Address Book</h1>
       </div>
       <div className="flex-none">
-        <button className="btn btn-square btn-ghost">
-          <HiOutlineUserAdd size={20} />
-        </button>
+        {isLoggedIn && (
+          <button className="btn btn-square btn-ghost">
+            <HiOutlineUserAdd size={20} />
+          </button>
+        )}
       </div>
     </div>
   );

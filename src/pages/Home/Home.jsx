@@ -31,10 +31,10 @@ const Home = () => {
           </button>
         </div>
         <Modal id={LOGIN_FORM_ID}>
-          <LoginForm />
+          <LoginForm id={LOGIN_FORM_ID} />
         </Modal>
         <Modal id={REGISTER_FORM_ID}>
-          <RegisterForm />
+          <RegisterForm id={REGISTER_FORM_ID} />
         </Modal>
       </div>
     </div>

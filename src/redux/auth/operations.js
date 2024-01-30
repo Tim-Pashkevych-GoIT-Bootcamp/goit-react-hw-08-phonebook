@@ -14,6 +14,8 @@ export const userSignup = createAsyncThunk(
   }
 );
 
+// tim@email.com
+// tim12345
 export const userLogin = createAsyncThunk(
   'users/login',
   async (credentials, thunkApi) => {
@@ -30,23 +32,24 @@ export const userLogin = createAsyncThunk(
 
 export const userLogout = createAsyncThunk(
   'users/logout',
-  async (token, thunkApi) => {
+  async (_, thunkApi) => {
     try {
-      const { data } = await phonebookApi.post('users/logout', token);
+      await phonebookApi.post('users/logout', thunkApi.getState().auth.token);
       clearToken();
-      return data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }
   }
 );
 
-export const userCurrent = createAsyncThunk(
-  'user/current',
-  async (token, thunkApi) => {
+export const loadCurrentUser = createAsyncThunk(
+  'users/current',
+  async (_, thunkApi) => {
     try {
-      const { data } = await phonebookApi.get('usres/current', token);
-      setToken(data.token);
+      const token = thunkApi.getState().auth.token;
+      setToken(token);
+
+      const { data } = await phonebookApi.get('users/current', token);
       return data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
