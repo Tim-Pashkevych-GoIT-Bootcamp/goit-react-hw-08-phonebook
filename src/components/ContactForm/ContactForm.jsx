@@ -1,4 +1,3 @@
-import css from './ContactForm.module.css';
 import { ContactFormInput, ContactFormButton } from 'components';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -39,7 +38,6 @@ export const ContactForm = () => {
   return (
     <FormProvider {...methods}>
       <form
-        className={css.form}
         name="contactForm"
         autoComplete="off"
         onSubmit={handleSubmit(onFormSubmit)}
@@ -48,7 +46,6 @@ export const ContactForm = () => {
           label="Name"
           name="name"
           type="text"
-          focus={true}
           required={true}
           ref={ref}
         />

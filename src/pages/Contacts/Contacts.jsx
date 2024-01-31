@@ -4,23 +4,25 @@ import {
   ContactsListFilter,
   Section,
 } from 'components';
+import { Drawer } from 'components/Drawer/Drawer';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Contacts = () => {
   return (
-    <>
-      <Section title="Phonebook">
-        <ContactForm />
-      </Section>
+    <div className="flex justify-center min-h-screen bg-base-200">
+      <div className="text-center">
+        <div className="max-w-md">
+          <ContactsListFilter />
+          <ContactsList />
 
-      <Section title="Contacts">
-        <ContactsListFilter />
-        <ContactsList />
-      </Section>
-
-      <ToastContainer />
-    </>
+          <Drawer id="add-contact-drawer" position="end">
+            <ContactForm />
+          </Drawer>
+          <ToastContainer />
+        </div>
+      </div>
+    </div>
   );
 };
 

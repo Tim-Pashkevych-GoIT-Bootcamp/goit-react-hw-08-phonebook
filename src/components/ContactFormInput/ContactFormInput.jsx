@@ -1,27 +1,24 @@
-import { nanoid } from '@reduxjs/toolkit';
-import css from './ContactFormInput.module.css';
 import { useFormContext } from 'react-hook-form';
 import { forwardRef } from 'react';
 
 export const ContactFormInput = forwardRef(function ContactFormInput(
-  { label, type, name, required = false, focus = false },
+  { label, type, name, placeholder = '', required = false, focus = false },
   fieldRef
 ) {
-  const fieldId = nanoid();
   const { register } = useFormContext();
   const { ref, ...restRegister } = register(name);
 
   return (
-    <fieldset className={css.formFieldSet}>
-      <label className={css.formLabel} htmlFor={fieldId}>
-        {label}:
-      </label>
+    <label className="form-control w-full max-w-xs">
+      <div className="label">
+        <span className="label-text">{label}</span>
+      </div>
       <input
-        id={fieldId}
         type={type}
         name={name}
         autoFocus={focus}
         required={required}
+        placeholder={placeholder}
         {...restRegister}
         ref={e => {
           ref(e);
@@ -29,7 +26,8 @@ export const ContactFormInput = forwardRef(function ContactFormInput(
             fieldRef.current = e;
           }
         }}
+        className="input input-bordered w-full max-w-xs"
       />
-    </fieldset>
+    </label>
   );
 });

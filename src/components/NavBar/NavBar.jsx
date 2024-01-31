@@ -10,7 +10,7 @@ export const NavBar = () => {
     <div className="navbar bg-base-100">
       <div className="flex-none">
         <label
-          htmlFor="my-drawer"
+          htmlFor="user-menu-drawer"
           className="btn btn-square btn-ghost  drawer-button"
         >
           <svg
@@ -29,11 +29,18 @@ export const NavBar = () => {
         </label>
       </div>
       <div className="flex-1">
-        <h1 className="text-center w-full">Address Book</h1>
+        <h1 className="text-center w-full">
+          {isLoggedIn ? 'Contacts' : 'Address Book'}
+        </h1>
       </div>
       <div className="flex-none">
         {isLoggedIn && (
-          <button className="btn btn-square btn-ghost">
+          <button
+            className="btn btn-square btn-ghost"
+            onClick={() =>
+              document.getElementById('add-contact-drawer').click()
+            }
+          >
             <HiOutlineUserAdd size={20} />
           </button>
         )}

@@ -31,6 +31,7 @@ export const RegisterForm = ({ id }) => {
             placeholder="Enter your Full Name"
             className="input input-bordered w-full max-w-xs"
             {...register('name', { required: true })}
+            autoFocus
           />
         </label>
         <label className="form-control w-full max-w-xs">

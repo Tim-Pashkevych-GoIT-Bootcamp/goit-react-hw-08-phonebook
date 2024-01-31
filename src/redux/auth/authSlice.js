@@ -14,6 +14,7 @@ const initialState = {
   token: '',
   isLoggedIn: false,
   isLoading: false,
+  isCurrentUserLoaded: true,
   error: null,
   formId: null,
 };
@@ -43,33 +44,30 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(userLogout.fulfilled, (state, { payload }) => {
-        state = initialState;
+        return initialState;
       })
       .addCase(loadCurrentUser.fulfilled, (state, { payload }) => {
         state.user = payload;
         state.isLoggedIn = true;
         state.isLoading = false;
+        state.isCurrentUserLoaded = true;
         state.error = null;
       })
+      .addCase(loadCurrentUser.pending, state => {
+        state.isCurrentUserLoaded = false;
+      })
+      .addCase(loadCurrentUser.rejected, state => {
+        state.isCurrentUserLoaded = true;
+      })
       .addMatcher(
-        isAnyOf(
-          userSignup.pending,
-          userLogin.pending,
-          userLogout.pending,
-          loadCurrentUser.pending
-        ),
+        isAnyOf(userSignup.pending, userLogin.pending, userLogout.pending),
         state => {
           state.isLoading = true;
           state.error = null;
         }
       )
       .addMatcher(
-        isAnyOf(
-          userSignup.rejected,
-          userLogin.rejected,
-          userLogout.rejected,
-          loadCurrentUser.rejected
-        ),
+        isAnyOf(userSignup.rejected, userLogin.rejected, userLogout.rejected),
         (state, { payload }) => {
           state.error = payload;
         }

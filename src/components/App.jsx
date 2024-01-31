@@ -1,22 +1,24 @@
 import { lazy, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Layout from './Layout';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loadCurrentUser } from './../redux/auth/operations';
 import { PublicRoute } from 'routes/PublicRoute';
 import { PrivateRoute } from 'routes/PrivateRoute';
+import { selectAuthIsCurrentUserLoaded } from './../redux/selectors';
 
 const Home = lazy(() => import('./../pages/Home/Home'));
 const Contacts = lazy(() => import('./../pages/Contacts/Contacts'));
 
 export const App = () => {
   const dispatch = useDispatch();
+  const isCurrentUserLoaded = useSelector(selectAuthIsCurrentUserLoaded);
 
   useEffect(() => {
     dispatch(loadCurrentUser());
   }, [dispatch]);
 
-  return (
+  return isCurrentUserLoaded ? (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route
@@ -36,6 +38,16 @@ export const App = () => {
           }
         />
       </Route>
+      <Route
+        path="*"
+        element={
+          <PublicRoute redirectTo="contacts">
+            <h2>Not found</h2>
+          </PublicRoute>
+        }
+      />
     </Routes>
+  ) : (
+    <h2>Loading...</h2>
   );
 };

@@ -1,20 +1,19 @@
 import { useDispatch } from 'react-redux';
 import { changeFilter } from './../../redux/contacts/filterSlice';
-import css from './../ContactFormInput/ContactFormInput.module.css';
+import { ContactFormInput } from 'components';
 
 export const ContactsListFilter = () => {
   const dispatch = useDispatch();
 
   return (
-    <fieldset className={css.formFieldSet}>
-      <label className={css.formLabel} htmlFor="searchField">
-        Find contacts by name:
-      </label>
+    <label className="form-control w-full max-w-xs">
       <input
-        id="searchField"
         type="text"
+        name="filter"
+        placeholder="Find contacts by name"
+        className="input input-bordered w-full max-w-xs"
         onChange={event => dispatch(changeFilter(event.target.value.trim()))}
       />
-    </fieldset>
+    </label>
   );
 };

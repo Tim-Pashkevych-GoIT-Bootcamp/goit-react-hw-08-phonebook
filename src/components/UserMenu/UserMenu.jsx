@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAuthIsLoggedIn, selectAuthUser } from './../../redux/selectors';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { userLogout } from './../../redux/auth/operations';
 import { LOGIN_FORM_ID, REGISTER_FORM_ID } from 'utils/constants';
 
@@ -8,15 +8,28 @@ export const UserMenu = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectAuthIsLoggedIn);
   const user = useSelector(selectAuthUser);
-  const navigate = useNavigate();
+
+  const closeDrawer = () => {
+    document.getElementById('user-menu-drawer').click();
+  };
 
   const logout = () => {
     dispatch(userLogout());
-    navigate('/', { replace: true });
+    closeDrawer();
+  };
+
+  const showLogin = () => {
+    document.getElementById(LOGIN_FORM_ID).showModal();
+    closeDrawer();
+  };
+
+  const showRegister = () => {
+    document.getElementById(REGISTER_FORM_ID).showModal();
+    closeDrawer();
   };
 
   return (
-    <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+    <ul>
       {isLoggedIn ? (
         <>
           <li>
@@ -29,20 +42,10 @@ export const UserMenu = () => {
       ) : (
         <>
           <li>
-            <Link
-              onClick={() => document.getElementById(LOGIN_FORM_ID).showModal()}
-            >
-              Login
-            </Link>
+            <Link onClick={showLogin}>Login</Link>
           </li>
           <li>
-            <Link
-              onClick={() =>
-                document.getElementById(REGISTER_FORM_ID).showModal()
-              }
-            >
-              Register
-            </Link>
+            <Link onClick={showRegister}>Register</Link>
           </li>
         </>
       )}
