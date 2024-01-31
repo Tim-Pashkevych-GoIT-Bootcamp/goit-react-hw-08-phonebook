@@ -17,7 +17,7 @@ export const createContact = createAsyncThunk(
   'contacts/create',
   async (contact, thunkApi) => {
     try {
-      const { data } = await phonebookApi.get('contacts', contact);
+      const { data } = await phonebookApi.post('contacts', contact);
       return data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);

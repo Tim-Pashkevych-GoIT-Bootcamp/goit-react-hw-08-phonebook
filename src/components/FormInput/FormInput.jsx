@@ -1,7 +1,7 @@
 import { useFormContext } from 'react-hook-form';
 import { forwardRef } from 'react';
 
-export const ContactFormInput = forwardRef(function ContactFormInput(
+export const FormInput = forwardRef(function FormInput(
   { label, type, name, placeholder = '', required = false, focus = false },
   fieldRef
 ) {

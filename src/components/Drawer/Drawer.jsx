@@ -1,7 +1,12 @@
-export const Drawer = ({ id, children, position = 'start' }) => {
+export const Drawer = ({ id, position = 'start', onClick, children }) => {
   return (
     <div className={`drawer drawer-${position}`}>
-      <input id={id} type="checkbox" className="drawer-toggle" />
+      <input
+        id={id}
+        type="checkbox"
+        className="drawer-toggle"
+        onClick={onClick}
+      />
       <div className="drawer-side">
         <label
           htmlFor={id}

@@ -4,17 +4,20 @@ import { selectAuthError, selectAuthFormId } from './../../redux/selectors';
 import { userLogin } from './../../redux/auth/operations';
 import { Alert } from 'components/Alert/Alert';
 import { setAuthFormId } from './../../redux/auth/authSlice';
-import { useRef } from 'react';
-import { ContactFormInput } from 'components';
+import { useEffect, useRef } from 'react';
+import { FormInput } from 'components';
 
-export const LoginForm = ({ id }) => {
+export const LoginForm = ({ id, isModalOpen }) => {
   const dispatch = useDispatch();
   const error = useSelector(selectAuthError);
   const formId = useSelector(selectAuthFormId);
   const emailInput = useRef(null);
-
   const methods = useForm();
   const { handleSubmit, reset } = methods;
+
+  useEffect(() => {
+    isModalOpen && emailInput.current.focus();
+  }, [isModalOpen]);
 
   const onSubmit = credentials => {
     dispatch(setAuthFormId(id));
@@ -28,16 +31,17 @@ export const LoginForm = ({ id }) => {
       {id === formId && error && <Alert type="error">{error}</Alert>}
 
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-        <ContactFormInput
+        <FormInput
           label="Email"
           name="email"
           type="email"
           focus={true}
           required={true}
+          ref={emailInput}
           placeholder="Enter your email"
         />
 
-        <ContactFormInput
+        <FormInput
           label="Password"
           name="password"
           type="password"

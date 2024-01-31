@@ -6,6 +6,7 @@ import { loadCurrentUser } from './../redux/auth/operations';
 import { PublicRoute } from 'routes/PublicRoute';
 import { PrivateRoute } from 'routes/PrivateRoute';
 import { selectAuthIsCurrentUserLoaded } from './../redux/selectors';
+import { Loader } from './Loader/Loader';
 
 const Home = lazy(() => import('./../pages/Home/Home'));
 const Contacts = lazy(() => import('./../pages/Contacts/Contacts'));
@@ -48,6 +49,6 @@ export const App = () => {
       />
     </Routes>
   ) : (
-    <h2>Loading...</h2>
+    <Loader />
   );
 };

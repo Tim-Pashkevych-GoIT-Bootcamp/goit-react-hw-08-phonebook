@@ -1,17 +1,24 @@
-import { ContactFormInput, ContactFormButton } from 'components';
+import { FormInput, FormButton } from 'components';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { createContact } from './../../redux/contacts/operations';
 import { selectContactsAll } from './../../redux/selectors';
-import { toast } from 'react-toastify';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import { setError } from './../../redux/contacts/contactsSlice';
+import { selectContactsError } from './../../redux/selectors';
+import { Alert } from 'components/Alert/Alert';
 
-export const ContactForm = () => {
-  const ref = useRef(null);
+export const ContactForm = ({ isDrawerOpen }) => {
+  const nameInput = useRef(null);
   const contacts = useSelector(selectContactsAll);
+  const error = useSelector(selectContactsError);
   const dispatch = useDispatch();
   const methods = useForm();
   const { handleSubmit, reset } = methods;
+
+  useEffect(() => {
+    isDrawerOpen && nameInput.current.focus();
+  }, [isDrawerOpen]);
 
   const contactsExist = ({ name }) => {
     return contacts.find(item =>
@@ -21,41 +28,39 @@ export const ContactForm = () => {
 
   const onFormSubmit = data => {
     if (contactsExist(data)) {
-      toast.error('Contact already added to your Phonebook');
-      ref.current.focus();
+      dispatch(setError('Contact already added to your Phonebook'));
+      nameInput.current.focus();
       return;
     }
 
     dispatch(createContact(data))
       .unwrap()
-      .catch(error => {
-        toast.error(error);
-      });
-    reset();
-    ref.current.focus();
+      .then(resp => {
+        reset();
+        document.getElementById('add-contact-drawer').click();
+      })
+      .catch(error => {});
   };
 
   return (
     <FormProvider {...methods}>
+      {error && <Alert type="error">{error}</Alert>}
+
       <form
         name="contactForm"
         autoComplete="off"
         onSubmit={handleSubmit(onFormSubmit)}
       >
-        <ContactFormInput
+        <FormInput
           label="Name"
           name="name"
           type="text"
           required={true}
-          ref={ref}
+          ref={nameInput}
         />
-        <ContactFormInput
-          label="Number"
-          name="phone"
-          type="tel"
-          required={true}
-        />
-        <ContactFormButton text="Add contact" type="submit" />
+        <FormInput label="Number" name="number" type="tel" required={true} />
+
+        <FormButton text="Add contact" type="submit" />
       </form>
     </FormProvider>
   );

@@ -3,12 +3,13 @@ import { NavBar } from './NavBar/NavBar';
 import { Suspense } from 'react';
 import { UserMenu } from './UserMenu/UserMenu';
 import { Drawer } from './Drawer/Drawer';
+import { Loader } from './Loader/Loader';
 
 const Layout = () => {
   return (
     <>
       <NavBar />
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader />}>
         <Outlet />
       </Suspense>
 

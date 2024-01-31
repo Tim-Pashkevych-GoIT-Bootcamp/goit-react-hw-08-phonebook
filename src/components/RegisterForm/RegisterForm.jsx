@@ -1,15 +1,23 @@
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { userSignup } from './../../redux/auth/operations';
 import { selectAuthError, selectAuthFormId } from './../../redux/selectors';
 import { Alert } from 'components/Alert/Alert';
 import { setAuthFormId } from './../../redux/auth/authSlice';
+import { useEffect, useRef } from 'react';
+import { FormInput } from 'components';
 
-export const RegisterForm = ({ id }) => {
+export const RegisterForm = ({ id, isModalOpen }) => {
   const dispatch = useDispatch();
+  const nameInput = useRef(null);
   const error = useSelector(selectAuthError);
   const formId = useSelector(selectAuthFormId);
-  const { register, handleSubmit, reset } = useForm();
+  const methods = useForm();
+  const { handleSubmit, reset } = methods;
+
+  useEffect(() => {
+    isModalOpen && nameInput.current.focus();
+  }, [isModalOpen]);
 
   const onSubmit = data => {
     dispatch(setAuthFormId(id));
@@ -18,46 +26,38 @@ export const RegisterForm = ({ id }) => {
       .then(res => reset())
       .catch(error => {});
   };
+
   return (
-    <>
+    <FormProvider {...methods}>
       {formId && formId === id && error && <Alert type="error">{error}</Alert>}
       <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-        <label className="form-control w-full max-w-xs">
-          <div className="label">
-            <span className="label-text">Full Name</span>
-          </div>
-          <input
-            type="text"
-            placeholder="Enter your Full Name"
-            className="input input-bordered w-full max-w-xs"
-            {...register('name', { required: true })}
-            autoFocus
-          />
-        </label>
-        <label className="form-control w-full max-w-xs">
-          <div className="label">
-            <span className="label-text">Email</span>
-          </div>
-          <input
-            type="email"
-            placeholder="Enter your email"
-            className="input input-bordered w-full max-w-xs"
-            {...register('email', { required: true })}
-          />
-        </label>
-        <label className="form-control w-full max-w-xs">
-          <div className="label">
-            <span className="label-text">Password</span>
-          </div>
-          <input
-            type="password"
-            placeholder="Enter your password"
-            className="input input-bordered w-full max-w-xs"
-            {...register('password', { required: true })}
-          />
-        </label>
+        <FormInput
+          label="Full Name"
+          name="name"
+          type="text"
+          required={true}
+          ref={nameInput}
+          placeholder="Enter your Full Name"
+        />
+
+        <FormInput
+          label="Email"
+          name="email"
+          type="email"
+          required={true}
+          placeholder="Enter your email"
+        />
+
+        <FormInput
+          label="Password"
+          name="password"
+          type="password"
+          required={true}
+          placeholder="Enter your password"
+        />
+
         <button className="btn btn-info">Register</button>
       </form>
-    </>
+    </FormProvider>
   );
 };

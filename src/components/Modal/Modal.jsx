@@ -1,9 +1,12 @@
-export const Modal = ({ id, children }) => {
+export const Modal = ({ id, close, children }) => {
   return (
     <dialog id={id} className="modal modal-bottom sm:modal-middle">
       <div className="modal-box">
         <form method="dialog">
-          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+          <button
+            onClick={close}
+            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+          >
             ✕
           </button>
         </form>

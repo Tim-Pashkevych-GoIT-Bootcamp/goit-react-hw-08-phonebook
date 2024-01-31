@@ -2,11 +2,25 @@ import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { createContact, deleteContact, getAllContacts } from './operations.js';
 import { userLogout } from './../auth/operations.js';
 
-const initialState = { items: [], isLoading: false, error: null };
+const initialState = {
+  items: [],
+  isLoading: false,
+  isDrawerOpen: false,
+  error: null,
+};
 
 const contactsSlice = createSlice({
   name: 'contacts',
   initialState,
+  reducers: {
+    setError(state, { payload }) {
+      state.error = payload;
+    },
+    toggleDrawer(state) {
+      state.isDrawerOpen = !state.isDrawerOpen;
+      state.error = null;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(getAllContacts.fulfilled, (state, action) => {
@@ -20,8 +34,8 @@ const contactsSlice = createSlice({
           item => item.id !== action.payload?.id
         );
       })
-      .addCase(userLogout.fulfilled, (state, { payload }) => {
-        state = initialState;
+      .addCase(userLogout.fulfilled, () => {
+        return initialState;
       })
       .addMatcher(
         isAnyOf(
@@ -58,3 +72,4 @@ const contactsSlice = createSlice({
 });
 
 export const contactsReducer = contactsSlice.reducer;
+export const { setError, toggleDrawer } = contactsSlice.actions;

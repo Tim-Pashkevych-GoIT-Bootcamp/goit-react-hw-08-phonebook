@@ -2,9 +2,15 @@ import { LoginForm } from 'components/LoginForm/LoginForm';
 import { Modal } from 'components/Modal/Modal';
 import { RegisterForm } from 'components/RegisterForm/RegisterForm';
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleModal } from './../../redux/auth/authSlice';
+import { selectIsModalOpen } from './../../redux/selectors';
 import { LOGIN_FORM_ID, REGISTER_FORM_ID } from 'utils/constants';
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const isModalOpen = useSelector(selectIsModalOpen);
+
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content text-center">
@@ -17,24 +23,28 @@ const Home = () => {
           </p>
           <button
             className="btn btn-success"
-            onClick={() => document.getElementById(LOGIN_FORM_ID).showModal()}
+            onClick={() => {
+              document.getElementById(LOGIN_FORM_ID).showModal();
+              dispatch(toggleModal());
+            }}
           >
             Login
           </button>
           <button
             className="btn btn-primary"
-            onClick={() =>
-              document.getElementById(REGISTER_FORM_ID).showModal()
-            }
+            onClick={() => {
+              document.getElementById(REGISTER_FORM_ID).showModal();
+              dispatch(toggleModal());
+            }}
           >
             Register
           </button>
         </div>
-        <Modal id={LOGIN_FORM_ID}>
-          <LoginForm id={LOGIN_FORM_ID} />
+        <Modal close={() => dispatch(toggleModal())} id={LOGIN_FORM_ID}>
+          <LoginForm isModalOpen={isModalOpen} id={LOGIN_FORM_ID} />
         </Modal>
-        <Modal id={REGISTER_FORM_ID}>
-          <RegisterForm id={REGISTER_FORM_ID} />
+        <Modal close={() => dispatch(toggleModal())} id={REGISTER_FORM_ID}>
+          <RegisterForm isModalOpen={isModalOpen} id={REGISTER_FORM_ID} />
         </Modal>
       </div>
     </div>

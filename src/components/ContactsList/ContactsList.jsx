@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import css from './ContactsList.module.css';
-import { ContactFormButton } from 'components';
+import { FormButton } from 'components';
 import {
   selectContactsIsLoading,
   selectFilteredContacts,
@@ -11,6 +10,7 @@ import {
   getAllContacts,
 } from './../../redux/contacts/operations';
 import { toast } from 'react-toastify';
+import { Loader } from 'components/Loader/Loader';
 
 export const ContactsList = () => {
   const isLoading = useSelector(selectContactsIsLoading);
@@ -32,14 +32,14 @@ export const ContactsList = () => {
 
   return (
     <>
-      {isLoading && <h3>Loading...</h3>}
+      {isLoading && <Loader />}
 
       {contacts.length > 0 && (
-        <ul className={css.contactsList}>
+        <ul>
           {contacts.map(({ id, name, phone }, index) => (
-            <li key={id} className={css.contactListItem}>
+            <li key={id}>
               <p>{`${++index}. ${name}: ${phone}`}</p>
-              <ContactFormButton text="Delete" onClick={() => onDelete(id)} />
+              <FormButton text="Delete" onClick={() => onDelete(id)} />
             </li>
           ))}
         </ul>
