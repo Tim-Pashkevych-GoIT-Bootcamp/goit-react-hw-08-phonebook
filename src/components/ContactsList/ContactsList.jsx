@@ -47,10 +47,10 @@ export const ContactsList = () => {
                 <div className="">{number}</div>
               </div>
               <div className="flex gap-3">
-                <FormButton color="warning" onClick={() => onUpdate(id)}>
+                <FormButton btnType="btn-warning" onClick={() => onUpdate(id)}>
                   Update
                 </FormButton>
-                <FormButton color="error" onClick={() => onDelete(id)}>
+                <FormButton btnType="btn-error" onClick={() => onDelete(id)}>
                   Delete
                 </FormButton>
               </div>

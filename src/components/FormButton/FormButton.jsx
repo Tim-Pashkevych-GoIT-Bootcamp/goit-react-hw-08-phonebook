@@ -1,11 +1,11 @@
 export const FormButton = ({
   type = 'button',
-  color = 'info',
+  btnType = 'btn-info',
   onClick,
   children,
 }) => {
   return (
-    <button className={`btn btn-${color}`} type={type} onClick={onClick}>
+    <button className={`btn ${btnType}`} type={type} onClick={onClick}>
       {children}
     </button>
   );

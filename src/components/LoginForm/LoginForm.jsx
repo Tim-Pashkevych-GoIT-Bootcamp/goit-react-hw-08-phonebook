@@ -53,7 +53,7 @@ export const LoginForm = ({ id, isModalOpen }) => {
           placeholder="Enter your password"
         />
 
-        <FormButton color="success" type="submit">
+        <FormButton btnType="btn-success" type="submit">
           Login
         </FormButton>
       </form>

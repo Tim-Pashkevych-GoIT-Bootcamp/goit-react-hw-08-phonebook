@@ -87,7 +87,10 @@ export const ContactForm = ({ isDrawerOpen }) => {
           required={true}
         />
 
-        <FormButton type="submit" color={selectedContact ? 'warning' : 'info'}>
+        <FormButton
+          type="submit"
+          btnType={selectedContact ? 'btn-warning' : 'btn-info'}
+        >
           {selectedContact ? 'Update' : 'Add'} contact
         </FormButton>
       </form>

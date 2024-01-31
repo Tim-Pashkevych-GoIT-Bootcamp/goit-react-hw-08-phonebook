@@ -60,7 +60,7 @@ export const RegisterForm = ({ id, isModalOpen }) => {
           placeholder="Enter your password"
         />
 
-        <FormButton color="info" type="submit">
+        <FormButton btnType="btn-info" type="submit">
           Register
         </FormButton>
       </form>
