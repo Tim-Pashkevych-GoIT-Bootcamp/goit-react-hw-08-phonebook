@@ -5,7 +5,7 @@ import { userLogin } from './../../redux/auth/operations';
 import { Alert } from 'components/Alert/Alert';
 import { setAuthFormId } from './../../redux/auth/authSlice';
 import { useEffect, useRef } from 'react';
-import { FormInput } from 'components';
+import { FormButton, FormInput } from 'components';
 
 export const LoginForm = ({ id, isModalOpen }) => {
   const dispatch = useDispatch();
@@ -30,7 +30,11 @@ export const LoginForm = ({ id, isModalOpen }) => {
     <FormProvider {...methods}>
       {id === formId && error && <Alert type="error">{error}</Alert>}
 
-      <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+      <form
+        className="flex flex-col gap-5"
+        onSubmit={handleSubmit(onSubmit)}
+        autoComplete="off"
+      >
         <FormInput
           label="Email"
           name="email"
@@ -49,7 +53,9 @@ export const LoginForm = ({ id, isModalOpen }) => {
           placeholder="Enter your password"
         />
 
-        <button className="btn btn-info">Login</button>
+        <FormButton color="success" type="submit">
+          Login
+        </FormButton>
       </form>
     </FormProvider>
   );

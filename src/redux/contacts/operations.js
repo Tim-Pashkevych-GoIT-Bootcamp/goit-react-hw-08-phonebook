@@ -39,12 +39,9 @@ export const deleteContact = createAsyncThunk(
 
 export const updateContact = createAsyncThunk(
   'contacts/update',
-  async (constact, thunkApi) => {
+  async ({ id, constact }, thunkApi) => {
     try {
-      const { data } = await phonebookApi.patch(
-        `constacts/${constact.id}`,
-        constact
-      );
+      const { data } = await phonebookApi.patch(`contacts/${id}`, constact);
       return data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);

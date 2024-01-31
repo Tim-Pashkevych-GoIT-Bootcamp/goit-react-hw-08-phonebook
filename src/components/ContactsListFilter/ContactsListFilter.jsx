@@ -16,7 +16,7 @@ export const ContactsListFilter = () => {
         type="text"
         name="filter"
         placeholder="Search"
-        className="input input-bordered w-full max-w-xs px-10"
+        className="input input-bordered w-full px-10"
         onChange={event => dispatch(changeFilter(event.target.value.trim()))}
       />
     </div>

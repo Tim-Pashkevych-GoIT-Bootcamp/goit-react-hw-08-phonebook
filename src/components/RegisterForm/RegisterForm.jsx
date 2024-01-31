@@ -5,7 +5,7 @@ import { selectAuthError, selectAuthFormId } from './../../redux/selectors';
 import { Alert } from 'components/Alert/Alert';
 import { setAuthFormId } from './../../redux/auth/authSlice';
 import { useEffect, useRef } from 'react';
-import { FormInput } from 'components';
+import { FormButton, FormInput } from 'components';
 
 export const RegisterForm = ({ id, isModalOpen }) => {
   const dispatch = useDispatch();
@@ -30,7 +30,11 @@ export const RegisterForm = ({ id, isModalOpen }) => {
   return (
     <FormProvider {...methods}>
       {formId && formId === id && error && <Alert type="error">{error}</Alert>}
-      <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+      <form
+        className="flex flex-col gap-5"
+        onSubmit={handleSubmit(onSubmit)}
+        autoComplete="off"
+      >
         <FormInput
           label="Full Name"
           name="name"
@@ -56,7 +60,9 @@ export const RegisterForm = ({ id, isModalOpen }) => {
           placeholder="Enter your password"
         />
 
-        <button className="btn btn-info">Register</button>
+        <FormButton color="info" type="submit">
+          Register
+        </FormButton>
       </form>
     </FormProvider>
   );

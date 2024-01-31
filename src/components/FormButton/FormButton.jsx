@@ -1,7 +1,12 @@
-export const FormButton = ({ text, type = 'button', onClick }) => {
+export const FormButton = ({
+  type = 'button',
+  color = 'info',
+  onClick,
+  children,
+}) => {
   return (
-    <button className="btn btn-info" type={type} onClick={onClick}>
-      {text}
+    <button className={`btn btn-${color}`} type={type} onClick={onClick}>
+      {children}
     </button>
   );
 };

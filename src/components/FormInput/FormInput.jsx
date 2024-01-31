@@ -1,15 +1,27 @@
 import { useFormContext } from 'react-hook-form';
-import { forwardRef } from 'react';
+import { forwardRef, useEffect } from 'react';
 
 export const FormInput = forwardRef(function FormInput(
-  { label, type, name, placeholder = '', required = false, focus = false },
+  {
+    label,
+    type,
+    name,
+    value,
+    placeholder = '',
+    required = false,
+    focus = false,
+  },
   fieldRef
 ) {
-  const { register } = useFormContext();
+  const { register, setValue } = useFormContext();
   const { ref, ...restRegister } = register(name);
 
+  useEffect(() => {
+    setValue(name, value);
+  }, [name, value, setValue]);
+
   return (
-    <label className="form-control w-full max-w-xs">
+    <label className="form-control w-full">
       <div className="label">
         <span className="label-text">{label}</span>
       </div>
@@ -26,7 +38,7 @@ export const FormInput = forwardRef(function FormInput(
             fieldRef.current = e;
           }
         }}
-        className="input input-bordered w-full max-w-xs"
+        className="input input-bordered w-full "
       />
     </label>
   );

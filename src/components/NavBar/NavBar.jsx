@@ -17,7 +17,7 @@ export const NavBar = () => {
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            className="inline-block w-5 h-5 stroke-current"
+            className="inline-block w-7 h-7 stroke-current"
           >
             <path
               strokeLinecap="round"
@@ -29,7 +29,7 @@ export const NavBar = () => {
         </button>
       </div>
       <div className="flex-1">
-        <h1 className="text-center w-full">
+        <h1 className="text-center w-full text-3xl">
           {isLoggedIn ? 'Contacts' : 'Address Book'}
         </h1>
       </div>
@@ -41,7 +41,7 @@ export const NavBar = () => {
               document.getElementById('add-contact-drawer').click()
             }
           >
-            <HiOutlineUserAdd size={20} />
+            <HiOutlineUserAdd size={25} />
           </button>
         )}
       </div>

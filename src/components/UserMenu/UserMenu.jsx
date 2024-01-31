@@ -32,7 +32,7 @@ export const UserMenu = () => {
   };
 
   return (
-    <ul>
+    <ul className="text-lg">
       {isLoggedIn ? (
         <>
           <li>

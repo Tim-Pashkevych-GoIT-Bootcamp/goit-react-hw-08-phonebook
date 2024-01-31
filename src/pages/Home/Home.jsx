@@ -15,30 +15,32 @@ const Home = () => {
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content text-center">
         <div className="max-w-md">
-          <h1 className="text-5xl font-bold">Hello there</h1>
+          <h1 className="text-5xl font-bold">Be organized</h1>
           <p className="py-6">
-            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-            excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
-            a id nisi.
+            This app helps you to keep your contacts under your control. You can
+            easily add, update, and delete contacts from your list. The search
+            feature helps you to find the person you need in just a few clicks.
           </p>
-          <button
-            className="btn btn-success"
-            onClick={() => {
-              document.getElementById(LOGIN_FORM_ID).showModal();
-              dispatch(toggleModal());
-            }}
-          >
-            Login
-          </button>
-          <button
-            className="btn btn-primary"
-            onClick={() => {
-              document.getElementById(REGISTER_FORM_ID).showModal();
-              dispatch(toggleModal());
-            }}
-          >
-            Register
-          </button>
+          <div className="flex gap-5 justify-center">
+            <button
+              className="btn btn-success"
+              onClick={() => {
+                document.getElementById(LOGIN_FORM_ID).showModal();
+                dispatch(toggleModal());
+              }}
+            >
+              Login
+            </button>
+            <button
+              className="btn btn-info"
+              onClick={() => {
+                document.getElementById(REGISTER_FORM_ID).showModal();
+                dispatch(toggleModal());
+              }}
+            >
+              Register
+            </button>
+          </div>
         </div>
         <Modal close={() => dispatch(toggleModal())} id={LOGIN_FORM_ID}>
           <LoginForm isModalOpen={isModalOpen} id={LOGIN_FORM_ID} />

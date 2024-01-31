@@ -1,6 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 export const selectContactsAll = state => state.contacts.items;
+export const selectSelectedContact = state => state.contacts.selectedContact;
 export const selectContactsIsLoading = state => state.contacts.isLoading;
 export const selectContactsError = state => state.contacts.error;
 export const selectIsDrawerOpen = state => state.contacts.isDrawerOpen;
