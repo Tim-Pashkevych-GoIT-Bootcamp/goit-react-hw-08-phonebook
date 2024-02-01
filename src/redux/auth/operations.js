@@ -14,8 +14,6 @@ export const userSignup = createAsyncThunk(
   }
 );
 
-// tim@email.com
-// tim12345
 export const userLogin = createAsyncThunk(
   'users/login',
   async (credentials, thunkApi) => {
