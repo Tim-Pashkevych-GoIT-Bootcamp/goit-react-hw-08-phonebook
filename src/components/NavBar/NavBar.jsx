@@ -1,17 +1,20 @@
 import React from 'react';
 import { HiOutlineUserAdd } from 'react-icons/hi';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { selectAuthIsLoggedIn } from './../../redux/selectors';
+import { openDrawer } from './../../redux/app/appSlice';
 
 export const NavBar = () => {
+  const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectAuthIsLoggedIn);
 
   return (
     <div className="navbar bg-base-100">
       <div className="flex-none">
         <button
-          className="btn btn-square btn-ghost  drawer-button"
-          onClick={() => document.getElementById('user-menu-drawer').click()}
+          className="btn btn-square btn-ghost"
+          onClick={() => dispatch(openDrawer('user-menu-drawer'))}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -37,9 +40,7 @@ export const NavBar = () => {
         {isLoggedIn && (
           <button
             className="btn btn-square btn-ghost"
-            onClick={() =>
-              document.getElementById('add-contact-drawer').click()
-            }
+            onClick={() => dispatch(openDrawer('add-contact-drawer'))}
           >
             <HiOutlineUserAdd size={25} />
           </button>

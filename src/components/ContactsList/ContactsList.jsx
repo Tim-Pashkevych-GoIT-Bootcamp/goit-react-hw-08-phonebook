@@ -1,16 +1,18 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FormButton } from 'components';
+
 import {
   selectContactsIsLoading,
   selectFilteredContacts,
 } from './../../redux/selectors';
-import { useEffect } from 'react';
 import {
   deleteContact,
   getAllContacts,
 } from './../../redux/contacts/operations';
-import { Loader } from 'components/Loader/Loader';
 import { setSelectedContact } from './../../redux/contacts/contactsSlice';
+import { openDrawer } from './../../redux/app/appSlice';
+import { FormButton } from 'components';
+import { Loader } from 'components/Loader/Loader';
 
 export const ContactsList = () => {
   const isLoading = useSelector(selectContactsIsLoading);
@@ -24,7 +26,7 @@ export const ContactsList = () => {
 
   const onUpdate = id => {
     dispatch(setSelectedContact(id));
-    document.getElementById('add-contact-drawer').click();
+    dispatch(openDrawer('edit-contact-drawer'));
   };
 
   const onDelete = id => {

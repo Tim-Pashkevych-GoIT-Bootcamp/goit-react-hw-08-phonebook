@@ -1,9 +1,15 @@
 import { FormProvider, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+
+import {
+  selectAuthError,
+  selectFormId,
+  selectModalId,
+} from './../../redux/selectors';
 import { userSignup } from './../../redux/auth/operations';
-import { selectAuthError, selectAuthFormId } from './../../redux/selectors';
+import { setFormId, toggleModal } from './../../redux/app/appSlice';
+
 import { Alert } from 'components/Alert/Alert';
-import { setAuthFormId } from './../../redux/auth/authSlice';
 import { useEffect, useRef } from 'react';
 import { FormButton, FormInput } from 'components';
 
@@ -11,19 +17,23 @@ export const RegisterForm = ({ id, isModalOpen }) => {
   const dispatch = useDispatch();
   const nameInput = useRef(null);
   const error = useSelector(selectAuthError);
-  const formId = useSelector(selectAuthFormId);
+  const formId = useSelector(selectFormId);
+  const modalId = useSelector(selectModalId);
   const methods = useForm();
   const { handleSubmit, reset } = methods;
 
   useEffect(() => {
-    isModalOpen && nameInput.current.focus();
-  }, [isModalOpen]);
+    isModalOpen && modalId === id && nameInput.current.focus();
+  }, [isModalOpen, modalId, id]);
 
   const onSubmit = data => {
-    dispatch(setAuthFormId(id));
+    dispatch(setFormId(id));
     dispatch(userSignup(data))
       .unwrap()
-      .then(res => reset())
+      .then(() => {
+        reset();
+        dispatch(toggleModal());
+      })
       .catch(error => {});
   };
 

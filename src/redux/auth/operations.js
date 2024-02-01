@@ -47,8 +47,11 @@ export const loadCurrentUser = createAsyncThunk(
   async (_, thunkApi) => {
     try {
       const token = thunkApi.getState().auth.token;
-      setToken(token);
+      if (!token) {
+        return thunkApi.rejectWithValue('Invalid token');
+      }
 
+      setToken(token);
       const { data } = await phonebookApi.get('users/current', token);
       return data;
     } catch (error) {

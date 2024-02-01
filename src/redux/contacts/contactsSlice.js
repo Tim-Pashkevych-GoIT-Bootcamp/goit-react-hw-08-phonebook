@@ -6,11 +6,11 @@ import {
   updateContact,
 } from './operations.js';
 import { userLogout } from './../auth/operations.js';
+import { closeDrawer, toggleDrawer } from './../app/appSlice.js';
 
 const initialState = {
   items: [],
   isLoading: false,
-  isDrawerOpen: false,
   selectedContact: null,
   error: null,
 };
@@ -24,10 +24,6 @@ const contactsSlice = createSlice({
     },
     setSelectedContact(state, { payload }) {
       state.selectedContact = state.items.find(item => item.id === payload);
-    },
-    toggleDrawer(state) {
-      state.isDrawerOpen = !state.isDrawerOpen;
-      state.error = null;
     },
   },
   extraReducers: builder => {
@@ -51,6 +47,12 @@ const contactsSlice = createSlice({
       })
       .addCase(userLogout.fulfilled, () => {
         return initialState;
+      })
+      .addCase(closeDrawer, state => {
+        state.selectedContact = null;
+      })
+      .addCase(toggleDrawer, state => {
+        state.selectedContact = null;
       })
       .addMatcher(
         isAnyOf(
@@ -91,5 +93,4 @@ const contactsSlice = createSlice({
 });
 
 export const contactsReducer = contactsSlice.reducer;
-export const { setError, toggleDrawer, setSelectedContact } =
-  contactsSlice.actions;
+export const { setError, setSelectedContact } = contactsSlice.actions;

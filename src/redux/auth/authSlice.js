@@ -15,22 +15,12 @@ const initialState = {
   isLoggedIn: false,
   isLoading: false,
   isCurrentUserLoaded: true,
-  isModalOpen: false,
   error: null,
-  formId: null,
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {
-    toggleModal(state) {
-      state.isModalOpen = !state.isModalOpen;
-    },
-    setAuthFormId(state, { payload }) {
-      state.formId = payload;
-    },
-  },
   extraReducers: builder => {
     builder
       .addCase(userSignup.fulfilled, (state, { payload }) => {
@@ -79,5 +69,4 @@ const authSlice = createSlice({
   },
 });
 
-export const { setAuthFormId, toggleModal } = authSlice.actions;
 export const authReducer = authSlice.reducer;

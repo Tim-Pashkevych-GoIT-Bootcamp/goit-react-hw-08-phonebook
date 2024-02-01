@@ -1,6 +1,6 @@
 export const FormButton = ({
   type = 'button',
-  btnType = 'btn-info',
+  btnType = '',
   onClick,
   children,
 }) => {

@@ -1,29 +1,41 @@
 import { FormProvider, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAuthError, selectAuthFormId } from './../../redux/selectors';
+
+import {
+  selectAuthError,
+  selectFormId,
+  selectModalId,
+} from './../../redux/selectors';
 import { userLogin } from './../../redux/auth/operations';
 import { Alert } from 'components/Alert/Alert';
-import { setAuthFormId } from './../../redux/auth/authSlice';
 import { useEffect, useRef } from 'react';
 import { FormButton, FormInput } from 'components';
+import { setFormId, toggleModal } from './../../redux/app/appSlice';
 
 export const LoginForm = ({ id, isModalOpen }) => {
   const dispatch = useDispatch();
   const error = useSelector(selectAuthError);
-  const formId = useSelector(selectAuthFormId);
+  const formId = useSelector(selectFormId);
+  const modalId = useSelector(selectModalId);
+
   const emailInput = useRef(null);
   const methods = useForm();
   const { handleSubmit, reset } = methods;
 
   useEffect(() => {
-    isModalOpen && emailInput.current.focus();
-  }, [isModalOpen]);
+    if (isModalOpen && modalId === id) {
+      emailInput.current.focus();
+    }
+  }, [isModalOpen, modalId, id]);
 
   const onSubmit = credentials => {
-    dispatch(setAuthFormId(id));
+    dispatch(setFormId(id));
     dispatch(userLogin(credentials))
       .unwrap()
-      .then(res => reset())
+      .then(() => {
+        reset();
+        dispatch(toggleModal());
+      })
       .catch(error => {});
   };
   return (

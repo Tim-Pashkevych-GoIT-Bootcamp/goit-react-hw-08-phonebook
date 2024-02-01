@@ -1,34 +1,28 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAuthIsLoggedIn, selectAuthUser } from './../../redux/selectors';
-import { Link } from 'react-router-dom';
 import { userLogout } from './../../redux/auth/operations';
 import { LOGIN_FORM_ID, REGISTER_FORM_ID } from 'utils/constants';
-import { toggleModal } from './../../redux/auth/authSlice';
+import { closeDrawer, toggleModal } from './../../redux/app/appSlice';
+import { Link } from 'react-router-dom';
 
 export const UserMenu = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectAuthIsLoggedIn);
   const user = useSelector(selectAuthUser);
 
-  const closeDrawer = () => {
-    document.getElementById('user-menu-drawer').click();
-  };
-
   const logout = () => {
     dispatch(userLogout());
-    closeDrawer();
+    dispatch(closeDrawer('user-menu-drawer'));
   };
 
   const showLogin = () => {
-    document.getElementById(LOGIN_FORM_ID).showModal();
-    dispatch(toggleModal());
-    closeDrawer();
+    dispatch(toggleModal(LOGIN_FORM_ID));
+    dispatch(closeDrawer('user-menu-drawer'));
   };
 
   const showRegister = () => {
-    document.getElementById(REGISTER_FORM_ID).showModal();
-    dispatch(toggleModal());
-    closeDrawer();
+    dispatch(toggleModal(REGISTER_FORM_ID));
+    dispatch(closeDrawer('user-menu-drawer'));
   };
 
   return (
